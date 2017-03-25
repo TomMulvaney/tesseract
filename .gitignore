@@ -28,3 +28,9 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+#########
+# Custom
+
+# ProjectSettings
+ProjectSettings/EditorBuildSettings.asset
