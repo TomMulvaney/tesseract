@@ -2,36 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TessCube : MonoBehaviour {
+public abstract class TessCube : MonoBehaviour {
+    public TessNetCube forward;
+    public TessNetCube back;
 
-    public TessCube forward;
-    public TessCube back;
+    public TessNetCube up;
+    public TessNetCube down;
 
-    public TessCube up;
-    public TessCube down;
+    public TessNetCube left;
+    public TessNetCube right;
 
-    public TessCube left;
-    public TessCube right;
-
-
-    public MeshRenderer render;
-
-	// Use this for initialization
-	void Start () {
-        render = gameObject.GetComponent <MeshRenderer> ();
-        if (render == null) {
-            Debug.LogWarning ("TessCube has no MeshRenderer");
-        }
-	}
-
-    public void SetMaterial(Material newMat) {
-        if (render != null) {
-            render.material = newMat;
-        }
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public abstract void SetColor (Color newColor);
 }
