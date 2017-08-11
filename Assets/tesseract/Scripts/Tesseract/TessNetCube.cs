@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TessNetCube : TessCube {
+public class TessNetCube : TessCube, IClickable {
     public override void SetColor(Color newColor) {
         Renderer render = gameObject.GetComponent <Renderer>();
         if (render != null) {
@@ -10,5 +10,9 @@ public class TessNetCube : TessCube {
         } else {
             Debug.LogWarning ("TessCube has no Renderer");
         }
+    }
+
+    public override void Click() {
+        base.Click ();
     }
 }

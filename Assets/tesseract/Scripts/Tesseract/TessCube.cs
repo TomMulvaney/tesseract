@@ -23,5 +23,9 @@ public abstract class TessCube : MonoBehaviour {
         }
     }
 
-
+    public virtual void Click() {
+        if (OnClicked != null) {
+            OnClicked (this);
+        }
+    }
 }

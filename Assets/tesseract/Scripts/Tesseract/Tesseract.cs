@@ -15,7 +15,7 @@ public class Tesseract : MonoBehaviour {
             
             cubes [i].SetColor (colors [i]);
             cubes [i].OnClicked += OnClickTessCube;
-            cubes [i].TestOnClicked ();
+            // cubes [i].TestOnClicked ();
         }
 	}
 
