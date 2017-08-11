@@ -10,9 +10,17 @@ public class Tesseract : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         for (int i = 0; i < cubes.Length; i++) {
-            cubes [i].GetComponent <Renderer> ().material.color = colors [i];
+            
+            cubes [i].SetColor (colors [i]);
+            cubes [i].OnClicked += OnClickTessCube;
+            cubes [i].TestOnClicked ();
         }
 	}
+
+    void OnClickTessCube(TessCube cube) {
+        Debug.Log ("OnClickTessCube(): " + cube.gameObject.name);
+
+    }
 }
