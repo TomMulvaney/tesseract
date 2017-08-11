@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class TessCube : MonoBehaviour {
 
+    public TessCube forward;
+    public TessCube back;
+
     public TessCube up;
     public TessCube down;
+
     public TessCube left;
     public TessCube right;
 
