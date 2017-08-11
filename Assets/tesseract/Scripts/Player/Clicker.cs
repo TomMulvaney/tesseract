@@ -9,12 +9,12 @@ public class Clicker : MonoBehaviour {
         Debug.DrawRay (transform.position, transform.forward);
 
         if (Input.GetMouseButtonDown (0)) {
-            Debug.Log ("Clicked");
-
             RaycastHit hit = new RaycastHit ();
             if (Physics.Raycast (transform.position, transform.forward, out hit)) {
-                Debug.Log ("Hit " + hit.collider.gameObject.name);
-
+                IClickable clickable = hit.collider.GetComponent (typeof(IClickable)) as IClickable;
+                if (clickable != null) {
+                    clickable.Click ();
+                }
             }
         }
 	}

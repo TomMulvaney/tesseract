@@ -17,15 +17,13 @@ public abstract class TessCube : MonoBehaviour {
 
     public abstract void SetColor (Color newColor);
 
-    public void TestOnClicked() {
-        if(OnClicked != null) {
-            OnClicked (this);
-        }
-    }
+
 
     public virtual void Click() {
         if (OnClicked != null) {
             OnClicked (this);
         }
     }
+
+    public abstract void SetVisible (bool isVisible);
 }
