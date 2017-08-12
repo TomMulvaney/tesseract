@@ -40,7 +40,11 @@ public class TessNetCube : TessCube, IClickable {
     }
 
     public override void SetVisible (bool isVisible) {
-        if (meshRender != null) {
+        
+        float targetAlpha = isVisible ? 1.0f : 0.0f; // TODO: This isn't working
+        iTween.FadeTo (gameObject, targetAlpha, 0.3f);
+
+        if (meshRender != null) { // TODO: Should tween values here
             meshRender.enabled = isVisible;
         }
 
