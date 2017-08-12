@@ -4,19 +4,41 @@ using UnityEngine;
 
 public abstract class TessCube : MonoBehaviour {
 
-    public int id;
-
     public delegate void ClickAction(TessCube cube);
     public event ClickAction OnClicked;
 
-    public TessNetCube forward;
-    public TessNetCube back;
+    public int id;
 
-    public TessNetCube up;
-    public TessNetCube down;
+    public TessCube forward;
+    public TessCube back;
 
-    public TessNetCube left;
-    public TessNetCube right;
+    public TessCube up;
+    public TessCube down;
+
+    public TessCube left;
+    public TessCube right;
+
+    public TessCube opposite;
+
+    public void Init(int newId, TessCube[] cubes) {
+        id = newId;
+        SetNeighbors (cubes);
+    }
+
+    void SetNeighbors(TessCube[] cubes) {
+        Dictionary<string, int> neighbors = TessRef.Instance.neighborMap [id];
+
+        forward = cubes [neighbors [TessRef.FORWARD]];
+        back = cubes [neighbors [TessRef.BACK]];
+
+        left = cubes [neighbors [TessRef.LEFT]];
+        right = cubes [neighbors [TessRef.RIGHT]];
+
+        up = cubes [neighbors [TessRef.UP]];
+        down = cubes [neighbors [TessRef.DOWN]];
+
+        opposite = cubes [neighbors [TessRef.OPPOSITE]];
+    }
 
     public abstract void SetColor (Color newColor);
 
@@ -30,8 +52,4 @@ public abstract class TessCube : MonoBehaviour {
 
     public abstract void SetVisible (bool isVisible);
 
-    // TODO
-    public void SetNeighbors(TessCube[] cubes, Dictionary<string, int> neighbors) {
-        // forward = cubes[neighbors
-    }
 }

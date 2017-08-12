@@ -9,10 +9,11 @@ public abstract class Tesseract : MonoBehaviour {
     // Use this for initialization
     void Start () {
         for (int i = 0; i < cubes.Length; i++) {
+            cubes [i].Init (i, cubes);
             cubes [i].OnClicked += OnClickTessCube;
         }
 
-        SetCubeColors (TessReference.Instance.colors);
+        SetCubeColors (TessRef.Instance.colors);
     }
 
     public abstract void OnClickTessCube (TessCube cube);
@@ -25,7 +26,7 @@ public abstract class Tesseract : MonoBehaviour {
 
         for (int i = 0; i < cubes.Length; i++) {
             cubes [i].SetColor (colors [i]);
-            cubes [i].OnClicked += OnClickTessCube;
+
         }
     }
 }
