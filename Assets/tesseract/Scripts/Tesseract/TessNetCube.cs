@@ -5,7 +5,6 @@ using UnityEngine;
 public class TessNetCube : TessCube, IClickable {
 
     Renderer render;
-    MeshRenderer meshRender;
     Collider coll;
 
     void Awake() {
@@ -13,12 +12,6 @@ public class TessNetCube : TessCube, IClickable {
         render = gameObject.GetComponent <Renderer>();
         if (render == null) {
             Debug.LogWarning ("TessCube has no Renderer");
-
-        }
-
-        meshRender = gameObject.GetComponent <MeshRenderer>();
-        if (meshRender == null) {
-            Debug.LogWarning ("TessCube has no MeshRenderer");
 
         }
 
@@ -40,13 +33,9 @@ public class TessNetCube : TessCube, IClickable {
     }
 
     public override void SetVisible (bool isVisible) {
-        
-        float targetAlpha = isVisible ? 1.0f : 0.0f; // TODO: This isn't working
-        iTween.FadeTo (gameObject, targetAlpha, 0.3f);
 
-        if (meshRender != null) { // TODO: Should tween values here
-            meshRender.enabled = isVisible;
-        }
+        float targetAlpha = isVisible ? 1.0f : 0.0f;
+        iTween.FadeTo (gameObject, targetAlpha, 0.3f);
 
         if (coll != null) {
             coll.enabled = isVisible;

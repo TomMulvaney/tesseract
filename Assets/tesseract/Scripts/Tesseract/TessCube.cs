@@ -7,18 +7,22 @@ public abstract class TessCube : MonoBehaviour {
     public delegate void ClickAction(TessCube cube);
     public event ClickAction OnClicked;
 
-    public int id;
+    int id;
 
-    public TessCube forward;
-    public TessCube back;
+    public int GetId() {
+        return id;
+    }
 
-    public TessCube up;
-    public TessCube down;
+    TessCube forward;
+    TessCube back;
 
-    public TessCube left;
-    public TessCube right;
+    TessCube up;
+    TessCube down;
 
-    public TessCube opposite;
+    TessCube left;
+    TessCube right;
+
+    TessCube opposite;
 
     public void Init(int newId, TessCube[] cubes) {
         id = newId;
