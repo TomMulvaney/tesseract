@@ -4,6 +4,11 @@ using UnityEngine;
 
 public abstract class Tesseract : MonoBehaviour {
 
+    bool hasStarted = false;
+    public bool HasStarted() {
+        return hasStarted;
+    }
+
     [SerializeField]
     protected TessCube[] cubes = new TessCube[8];
 
@@ -12,11 +17,13 @@ public abstract class Tesseract : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Awake () {
+    void Start () {
         for (int i = 0; i < cubes.Length; i++) {
             cubes [i].Init (i, cubes);
             cubes [i].OnClick += OnClickCube;
         }
+
+        hasStarted = true;
     }
 
     public abstract void OnClickCube (TessCube cube);

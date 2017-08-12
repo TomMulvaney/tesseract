@@ -91,8 +91,12 @@ public class TessCube : MonoBehaviour {
         int colorIdx = id + off;
 
         if (colorIdx >= TessRef.Instance.colors.Length) { // Wrap index
-            colorIdx = off - TessRef.Instance.colors.Length - id - 1; // TODO: Test Index Wrapping
+            int reverseIdx = TessRef.Instance.colors.Length - 1 - id;
+            Debug.Log (string.Format ("id={0},off={1},colorIdx={2},reverseIdx={3}", id, off, colorIdx, reverseIdx));
+            colorIdx = off - reverseIdx - 1; // TODO: Test Index Wrapping
         }
+
+
 
         render.material.color = TessRef.Instance.colors [colorIdx];
     }
