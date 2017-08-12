@@ -1,5 +1,6 @@
-﻿
+﻿using UnityEngine;
+
 public interface IClickable {
 
-    void Click(IClickable clickable);
+    void Click(MonoBehaviour obj);
 }

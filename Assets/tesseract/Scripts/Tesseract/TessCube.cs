@@ -25,14 +25,14 @@ public class TessCube : MonoBehaviour {
     TessCube opposite;
 
 
-    void Awake() {
+    protected virtual void Awake() {
         Collider[] colliders = gameObject.GetComponentsInChildren <Collider> ();
         if (colliders.Length > 0) {
             foreach (Collider coll in colliders) {
                 AssignClickable (coll);   
             }
-        } else if (collider != null) {
-            AssignClickable (collider);
+        } else if (GetComponent<Collider>() != null) {
+            AssignClickable (GetComponent<Collider>());
         } else {
             Debug.LogWarning ("TessCube has no collider nor colliders in children");
         }

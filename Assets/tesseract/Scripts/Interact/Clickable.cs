@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Clickable : MonoBehaviour {
+public class Clickable : MonoBehaviour, IClickable {
 
-    public delegate void ClickAction(Clickable cube);
+    public delegate void ClickAction(IClickable cube);
     public event ClickAction OnClick;
 
-    void Click(IClickable clickable) {
+    public void Click(MonoBehaviour obj) {
         if (OnClick != null) {
-            OnClick (this);
+            OnClick (this as IClickable);
         }
     }
 }

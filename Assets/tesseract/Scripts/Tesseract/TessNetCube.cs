@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TessNetCube : TessCube, IClickable {
+public class TessNetCube : TessCube {
 
     Collider coll;
 
-    void Awake() {
+    protected override void Awake() {
+        base.Awake ();
+
         coll = gameObject.GetComponent <Collider>();
         if (coll == null) {
             Debug.LogWarning ("TessCube has no Collider");
