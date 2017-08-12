@@ -7,7 +7,7 @@ public class TessNet : Tesseract {
     public bool isUnfolded = true;
 
 
-    public override void OnClickTessCube(TessCube cube) {
+    public override void OnClickCube(TessCube cube) {
         Debug.Log ("Clicked " + cube.gameObject.name);
         isUnfolded = !isUnfolded;
         ToggleCubes ();
