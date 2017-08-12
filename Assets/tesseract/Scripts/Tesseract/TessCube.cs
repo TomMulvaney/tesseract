@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TessCube : MonoBehaviour {
+public class TessCube : MonoBehaviour {
 
     public delegate void ClickAction(TessCube cube);
-    public event ClickAction OnClicked;
+    public event ClickAction OnClick;
 
     int id;
 
@@ -24,9 +24,40 @@ public abstract class TessCube : MonoBehaviour {
 
     TessCube opposite;
 
+
+    void Awake() {
+        Collider[] colliders = gameObject.GetComponentsInChildren <Collider> ();
+        if (colliders.Length > 0) {
+            foreach (Collider coll in colliders) {
+                AssignClickable (coll);   
+            }
+        } else if (collider != null) {
+            AssignClickable (collider);
+        } else {
+            Debug.LogWarning ("TessCube has no collider nor colliders in children");
+        }
+    }
+
+    void AssignClickable(Collider coll) {
+        Clickable clickable = coll.gameObject.AddComponent <Clickable>();
+        if (clickable != null) {
+            clickable.OnClick += Click;
+        } else {
+            Debug.LogError ("TessCube failed to add Clickable component to collider");
+        }
+    }
+
+    void Click(IClickable clickable) {
+        if (OnClick != null) {
+            OnClick (this);
+        }
+    }
+        
+
     public void Init(int newId, TessCube[] cubes) {
         id = newId;
         SetNeighbors (cubes);
+        OffsetColor (0);
     }
 
     void SetNeighbors(TessCube[] cubes) {
@@ -44,16 +75,26 @@ public abstract class TessCube : MonoBehaviour {
         opposite = cubes [neighbors [TessRef.OPPOSITE]];
     }
 
-    public abstract void SetColor (Color newColor);
+    public void OffsetColor(int off) {
+        Renderer render = gameObject.GetComponent <Renderer>();
 
-
-
-    public virtual void Click() {
-        if (OnClicked != null) {
-            OnClicked (this);
+        if (render == null) {
+            Debug.LogError ("Invoked OffsetColor on TessCube with no Renderer");
+            return;
         }
+
+        int colorIdx = id + off;
+
+        if (colorIdx >= TessRef.Instance.colors.Length) { // Wrap index
+            colorIdx = off - TessRef.Instance.colors.Length - id - 1; // TODO: Test Index Wrapping
+        }
+
+        render.material.color = TessRef.Instance.colors [colorIdx];
     }
 
-    public abstract void SetVisible (bool isVisible);
 
+    public virtual void SetVisible (bool isVisible) {
+        float targetAlpha = isVisible ? 1.0f : 0.0f;
+        iTween.FadeTo (gameObject, targetAlpha, 0.3f);
+    }
 }

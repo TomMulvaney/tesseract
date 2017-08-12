@@ -10,23 +10,9 @@ public abstract class Tesseract : MonoBehaviour {
     void Start () {
         for (int i = 0; i < cubes.Length; i++) {
             cubes [i].Init (i, cubes);
-            cubes [i].OnClicked += OnClickCube;
+            cubes [i].OnClick += OnClickCube;
         }
-
-        SetCubeColors (TessRef.Instance.colors);
     }
 
     public abstract void OnClickCube (TessCube cube);
-
-    public void SetCubeColors(Color[] colors) {
-        if (colors.Length != cubes.Length) {
-            Debug.LogError (string.Format ("Tesseract has {0} cubes but {1} colors", cubes.Length, colors.Length));
-            return;
-        }
-
-        for (int i = 0; i < cubes.Length; i++) {
-            cubes [i].SetColor (colors [i]);
-
-        }
-    }
 }
