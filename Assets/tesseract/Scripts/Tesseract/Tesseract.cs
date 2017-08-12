@@ -2,34 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tesseract : MonoBehaviour {
-
-    public bool isUnfolded = true;
+public abstract class Tesseract : MonoBehaviour {
 
     public TessCube[] cubes = new TessCube[8];
 
-    public Color[] colors = new Color[8];
-
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         for (int i = 0; i < cubes.Length; i++) {
-            
-            cubes [i].SetColor (colors [i]);
             cubes [i].OnClicked += OnClickTessCube;
         }
-	}
 
-    void OnClickTessCube(TessCube cube) {
-        Debug.Log ("Clicked " + cube.gameObject.name);
-        isUnfolded = !isUnfolded;
-        ToggleCubes ();
+        SetCubeColors (TessReference.Instance.colors);
     }
 
+    public abstract void OnClickTessCube (TessCube cube);
 
-    void ToggleCubes() { // TODO: This function should be on child class TessNetCube
-        for (int i = 1; i < cubes.Length; ++i) {
-            cubes [i].SetVisible (isUnfolded);
+    public void SetCubeColors(Color[] colors) {
+        if (colors.Length != cubes.Length) {
+            Debug.LogError (string.Format ("Tesseract has {0} cubes but {1} colors", cubes.Length, colors.Length));
+            return;
+        }
+
+        for (int i = 0; i < cubes.Length; i++) {
+            cubes [i].SetColor (colors [i]);
+            cubes [i].OnClicked += OnClickTessCube;
         }
     }
 }

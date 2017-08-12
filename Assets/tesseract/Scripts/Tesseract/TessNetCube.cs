@@ -6,9 +6,10 @@ public class TessNetCube : TessCube, IClickable {
 
     Renderer render;
     MeshRenderer meshRender;
-    Collider collider;
+    Collider coll;
 
     void Awake() {
+
         render = gameObject.GetComponent <Renderer>();
         if (render == null) {
             Debug.LogWarning ("TessCube has no Renderer");
@@ -21,8 +22,8 @@ public class TessNetCube : TessCube, IClickable {
 
         }
 
-        collider = gameObject.GetComponent <Collider>();
-        if (collider == null) {
+        coll = gameObject.GetComponent <Collider>();
+        if (coll == null) {
             Debug.LogWarning ("TessCube has no Collider");
 
         }
@@ -30,7 +31,6 @@ public class TessNetCube : TessCube, IClickable {
 
     public override void SetColor(Color newColor) {
         if (render != null) {
-            
             render.material.color = newColor;
         }
     }
@@ -41,15 +41,11 @@ public class TessNetCube : TessCube, IClickable {
 
     public override void SetVisible (bool isVisible) {
         if (meshRender != null) {
-
             meshRender.enabled = isVisible;
-
         }
 
-        if (collider != null) {
-
-            collider.enabled = isVisible;
-
+        if (coll != null) {
+            coll.enabled = isVisible;
         }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class TessCube : MonoBehaviour {
+
+    public int id;
+
     public delegate void ClickAction(TessCube cube);
     public event ClickAction OnClicked;
 
@@ -26,4 +29,9 @@ public abstract class TessCube : MonoBehaviour {
     }
 
     public abstract void SetVisible (bool isVisible);
+
+    // TODO
+    public void SetNeighbors(TessCube[] cubes, Dictionary<string, int> neighbors) {
+        // forward = cubes[neighbors
+    }
 }
