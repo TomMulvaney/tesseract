@@ -24,24 +24,30 @@ public class TessCube : MonoBehaviour {
 
     TessCube opposite;
 
+    List<Collider> colliders = new List<Collider>();
+
 
     protected virtual void Awake() {
-        Collider[] colliders = gameObject.GetComponentsInChildren <Collider> ();
-        if (colliders.Length > 0) {
-            foreach (Collider coll in colliders) {
-                AssignClickable (coll);   
-            }
-        } else if (GetComponent<Collider>() != null) {
-            AssignClickable (GetComponent<Collider>());
-        } else {
-            Debug.LogWarning ("TessCube has no collider nor colliders in children");
+        Collider[] childColliders = gameObject.GetComponentsInChildren <Collider> ();
+        foreach (Collider childCollider in childColliders) {
+            AddCollider (childCollider);   
+        }
+
+        Collider collider = GetComponent<Collider>();
+        if (collider != null) {
+            AddCollider (GetComponent<Collider>());
+        }
+
+        if (colliders.Count == 0) {
+            Debug.LogWarning ("TessCube has no colliders");
         }
     }
 
-    void AssignClickable(Collider coll) {
-        Clickable clickable = coll.gameObject.AddComponent <Clickable>();
+    void AddCollider(Collider collider) {
+        Clickable clickable = collider.gameObject.AddComponent <Clickable>();
         if (clickable != null) {
             clickable.OnClick += Click;
+            colliders.Add (collider);
         } else {
             Debug.LogError ("TessCube failed to add Clickable component to collider");
         }
@@ -53,7 +59,6 @@ public class TessCube : MonoBehaviour {
         }
     }
         
-
     public void Init(int newId, TessCube[] cubes) {
         id = newId;
         SetNeighbors (cubes);
@@ -96,5 +101,9 @@ public class TessCube : MonoBehaviour {
     public virtual void SetVisible (bool isVisible) {
         float targetAlpha = isVisible ? 1.0f : 0.0f;
         iTween.FadeTo (gameObject, targetAlpha, 0.3f);
+
+        foreach (Collider collider in colliders) {
+            collider.enabled = isVisible;
+        }
     }
 }
