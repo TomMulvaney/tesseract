@@ -6,15 +6,36 @@ public class TessRef : Singleton<TessRef> {
 
     public Color[] colors = new Color[8];
 
+    // TODO: Should be Dictionary<int, int>
     public readonly Dictionary<string, int>[] neighborMap = new Dictionary<string, int>[8];
 
-    public const string FORWARD = "forward";
+    public const string FORWARD = "forward"; // TODO: This should be ints
     public const string BACK = "back";
     public const string UP = "up";
     public const string DOWN = "down";
     public const string LEFT = "left";
     public const string RIGHT = "right";
     public const string OPPOSITE = "opposite";
+
+
+    // 0 = Center
+    // 1 = Top
+    // 2 = Left
+    // 3 = Right
+    // 4 = Forward
+    // 5 = Back
+    // 6 = Lower-center
+    // 7 = Bottom
+
+    public int GetNeighborId(int id, string direction) {
+        Dictionary<string, int> neighbors = neighborMap [id];
+        return neighbors [direction];
+    }
+
+    public Color GetNeighborColor(int id, string direction) {
+        int neighborId = GetNeighborId (id, direction);
+        return colors [neighborId];
+    }
 
 
 	// Use this for initialization

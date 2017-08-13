@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TessNet : Tesseract {
 
-    public bool isUnfolded = true;
+    bool isUnfolded = true;
    
     public override void OnClickCube(TessCube cube) {
         isUnfolded = !isUnfolded;
