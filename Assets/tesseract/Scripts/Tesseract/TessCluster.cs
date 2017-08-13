@@ -12,7 +12,7 @@ public class TessCluster : MonoBehaviour {
         if (tesseracts.Count > 0 && tesseracts.Count <= 8) {
             yield return new WaitUntil(() => tesseracts.All (tess => tess.HasStarted ()));
             for (int i = 0; i < tesseracts.Count; ++i) {
-                tesseracts [i].OffsetCubeColors (i);
+                tesseracts [i].OffsetCubeColors (i); // TODO: Call TessCube method ChangeColor(i) directly
 //                TessCube[] cubes = tesseracts [i].GetCubes ();
 //                foreach (TessCube cube in cubes) {
 //                    cube.OffsetColor (i);

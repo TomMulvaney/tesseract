@@ -62,7 +62,7 @@ public class TessCube : MonoBehaviour {
     public void Init(int newId, TessCube[] cubes) {
         id = newId;
         SetNeighbors (cubes);
-        // OffsetColor (0);
+        // TODO: ChangeColor(0);
     }
 
     void SetNeighbors(TessCube[] cubes) {
@@ -80,6 +80,11 @@ public class TessCube : MonoBehaviour {
         opposite = cubes [neighbors [TessRef.OPPOSITE]];
     }
 
+    public void ChangeColor(int newCenterColor) {
+        // TODO: Get new color from TessRef given this TessCube's id and the newCenterColor
+    }
+
+    // TODO: Delete
     public void SetColor(Color color) { // TODO: This is not relevant to rooms, but is relevant to multiple types of tesseract (does it belong here?)
         Renderer render = gameObject.GetComponent <Renderer>();
 
@@ -88,29 +93,9 @@ public class TessCube : MonoBehaviour {
             return;
         }
 
-        render.material.color = color;
+        render.material.color = color; // TODO: Rooms have multiple renderers (4 walls).
     }
-
-//    public void OffsetColor(int off) {
-//        Renderer render = gameObject.GetComponent <Renderer>();
-//
-//        if (render == null) {
-//            Debug.LogError ("Invoked OffsetColor on TessCube with no Renderer");
-//            return;
-//        }
-//
-//        int colorIdx = id + off;
-//
-//        if (colorIdx >= TessRef.Instance.colors.Length) { // Wrap index
-//            int reverseIdx = TessRef.Instance.colors.Length - 1 - id;
-//            Debug.Log (string.Format ("id={0},off={1},colorIdx={2},reverseIdx={3}", id, off, colorIdx, reverseIdx));
-//            colorIdx = off - reverseIdx - 1; // TODO: Test Index Wrapping
-//        }
-//
-//
-//
-//        render.material.color = TessRef.Instance.colors [colorIdx];
-//    }
+     
 
 
     public virtual void SetVisible (bool isVisible) {

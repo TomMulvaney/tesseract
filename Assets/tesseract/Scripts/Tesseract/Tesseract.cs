@@ -23,13 +23,14 @@ public abstract class Tesseract : MonoBehaviour {
             cubes [i].OnClick += OnClickCube;
         }
 
-        OffsetCubeColors (0);
+        OffsetCubeColors (0); // TODO: This should not be done by Tesseract. TessCube should set own color in Init, TessCluster should handle changing color after that
 
         hasStarted = true;
     }
 
     public abstract void OnClickCube (TessCube cube);
 
+    // TODO: Delete this method
     public void OffsetCubeColors(int off) {
         Color[] colors = new Color[8];
 
