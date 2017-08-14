@@ -11,12 +11,11 @@ public class TessCluster : MonoBehaviour {
     IEnumerator Start () {
         if (tesseracts.Count > 0 && tesseracts.Count <= 8) {
             yield return new WaitUntil(() => tesseracts.All (tess => tess.HasStarted ()));
-            for (int i = 0; i < tesseracts.Count; ++i) {
-                tesseracts [i].OffsetCubeColors (i); // TODO: Call TessCube method ChangeColor(i) directly
-//                TessCube[] cubes = tesseracts [i].GetCubes ();
-//                foreach (TessCube cube in cubes) {
-//                    cube.OffsetColor (i);
-//                }
+            for (int i = 0; i < tesseracts.Count; ++i) {                
+                TessCube[] cubes = tesseracts [i].GetCubes ();
+                foreach (TessCube cube in cubes) {
+                    cube.ChangeColor (i);
+                }
             }
         } else {
             Debug.LogError (string.Format ("TessCluster has {0} tesseracts", tesseracts.Count));

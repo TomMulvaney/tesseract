@@ -13,21 +13,21 @@ public class TessCube : MonoBehaviour {
         return id;
     }
 
-    TessCube forward;
-    TessCube back;
+    public TessCube up;
+    public TessCube forward;
+    public TessCube right;
+    public TessCube back;
+    public TessCube left;
+    public TessCube down;
+    public TessCube opposite;
 
-    TessCube up;
-    TessCube down;
-
-    TessCube left;
-    TessCube right;
-
-    TessCube opposite;
 
     List<Collider> colliders = new List<Collider>();
 
 
     protected virtual void Awake() {
+        // The collider logic is all wrong. Not all colliders are supposed to be clickable (e.g. In TessCubeRoom, walls and portals both have colliders, but only portals are clickable)
+
         Collider[] childColliders = gameObject.GetComponentsInChildren <Collider> ();
         foreach (Collider childCollider in childColliders) {
             AddCollider (childCollider);   
@@ -62,42 +62,35 @@ public class TessCube : MonoBehaviour {
     public void Init(int newId, TessCube[] cubes) {
         id = newId;
         SetNeighbors (cubes);
-        // TODO: ChangeColor(0);
+        ChangeColor(0);
     }
 
     void SetNeighbors(TessCube[] cubes) {
-        Dictionary<string, int> neighbors = TessRef.Instance.neighborMap [id];
-
-        forward = cubes [neighbors [TessRef.FORWARD]];
-        back = cubes [neighbors [TessRef.BACK]];
-
-        left = cubes [neighbors [TessRef.LEFT]];
-        right = cubes [neighbors [TessRef.RIGHT]];
+        int[] neighbors = TessRef.Instance.neighborMap [id];
 
         up = cubes [neighbors [TessRef.UP]];
+        forward = cubes [neighbors [TessRef.FORWARD]];
+        right = cubes [neighbors [TessRef.RIGHT]];
+        back = cubes [neighbors [TessRef.BACK]];
+        left = cubes [neighbors [TessRef.LEFT]];
         down = cubes [neighbors [TessRef.DOWN]];
-
         opposite = cubes [neighbors [TessRef.OPPOSITE]];
     }
 
-    public void ChangeColor(int newCenterColor) {
-        // TODO: Get new color from TessRef given this TessCube's id and the newCenterColor
-    }
+    // TODO: This can be reconceptualized more generally. You're not just changing the color, you're realigning so that a different cube is at the center
+    public void ChangeColor(int newCenterColor) { 
 
-    // TODO: Delete
-    public void SetColor(Color color) { // TODO: This is not relevant to rooms, but is relevant to multiple types of tesseract (does it belong here?)
+        // TODO: Rooms have multiple renderers (4 walls).
         Renderer render = gameObject.GetComponent <Renderer>();
 
-        if (render == null) {
+        if (render != null) {
+            Color newColor = TessRef.Instance.GetNeighborColor (newCenterColor, id); // These args may (or may not) be the wrong way around
+            render.material.color = newColor;
+        } else {
             Debug.LogError ("Invoked OffsetColor on TessCube with no Renderer");
-            return;
         }
-
-        render.material.color = color; // TODO: Rooms have multiple renderers (4 walls).
     }
-     
-
-
+        
     public virtual void SetVisible (bool isVisible) {
         float targetAlpha = isVisible ? 1.0f : 0.0f;
         iTween.FadeTo (gameObject, targetAlpha, 0.3f);
