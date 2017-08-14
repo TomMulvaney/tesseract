@@ -77,14 +77,14 @@ public class TessCube : MonoBehaviour {
         opposite = cubes [neighbors [TessRef.OPPOSITE]];
     }
 
-    // TODO: This can be reconceptualized more generally. You're not just changing the color, you're realigning so that a different cube is at the center
+    // TODO: This should be reconceptualized more generally. You're not just changing the color, you're realigning so that a different cube is at the center
     public void ChangeColor(int newCenterColor) { 
 
         // TODO: Rooms have multiple renderers (4 walls).
         Renderer render = gameObject.GetComponent <Renderer>();
 
         if (render != null) {
-            Color newColor = TessRef.Instance.GetNeighborColor (newCenterColor, id); // These args may (or may not) be the wrong way around
+            Color newColor = TessRef.Instance.GetNeighborColor (newCenterColor, id);
             render.material.color = newColor;
         } else {
             Debug.LogError ("Invoked OffsetColor on TessCube with no Renderer");
