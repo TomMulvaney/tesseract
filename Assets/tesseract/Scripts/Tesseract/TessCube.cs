@@ -24,6 +24,8 @@ public class TessCube : MonoBehaviour {
 
     List<Collider> colliders = new List<Collider>();
 
+    // TODO: Collider and Clickable logic go in TessNetCube class (inherits from TessCube)
+
 
     protected virtual void Awake() {
         // The collider logic is all wrong. Not all colliders are supposed to be clickable (e.g. In TessCubeRoom, walls and portals both have colliders, but only portals are clickable)
