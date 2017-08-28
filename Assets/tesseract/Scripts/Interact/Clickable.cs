@@ -9,7 +9,7 @@ public class Clickable : MonoBehaviour, IClickable {
 
     public void Click(MonoBehaviour obj) {
         if (OnClick != null) {
-            OnClick (this as IClickable);
+            OnClick (this as IClickable); // TODO: Pass Clickable and Clicker
         }
     }
 }
