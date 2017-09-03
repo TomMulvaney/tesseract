@@ -14,7 +14,7 @@ public class TessCluster : MonoBehaviour {
             for (int i = 0; i < tesseracts.Count; ++i) {                
                 TessCube[] cubes = tesseracts [i].GetCubes ();
                 foreach (TessCube cube in cubes) {
-                    cube.ChangeColor (i);
+                    cube.Rebase (i);
                 }
             }
         } else {

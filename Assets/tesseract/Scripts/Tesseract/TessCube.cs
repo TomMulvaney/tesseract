@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TessCube : MonoBehaviour {
 
+    public List<Collider> colliders = new List<Collider> ();
+    public List<Renderer> renderers = new List<Renderer>();
+
     public delegate void ClickAction(TessCube cube);
     public event ClickAction OnClick;
 
@@ -21,8 +24,18 @@ public class TessCube : MonoBehaviour {
     TessCube down;
     TessCube opposite;
 
+    void Awake() {
+        foreach (Collider collider in colliders) {
+            Clickable clickable = collider.gameObject.AddComponent <Clickable>();
+            if (clickable != null) {
+                clickable.OnClick += Click;
+            } else {
+                Debug.LogError ("TessNetCube failed to add Clickable component to collider");
+            }
+        }
+    }
 
-    protected void Click(IClickable clickable) {
+    void Click(IClickable clickable) {
         if (OnClick != null) {
             OnClick (this);
         }
@@ -31,7 +44,7 @@ public class TessCube : MonoBehaviour {
     public void Init(int newId, TessCube[] cubes) {
         id = newId;
         SetNeighbors (cubes);
-        ChangeColor(0);
+        Rebase(0);
     }
 
     void SetNeighbors(TessCube[] cubes) {
@@ -45,23 +58,22 @@ public class TessCube : MonoBehaviour {
         down = cubes [neighbors [TessRef.DOWN]];
         opposite = cubes [neighbors [TessRef.OPPOSITE]];
     }
+        
+    public void Rebase(int centerIdx) { 
 
-    // TODO: This should be reconceptualized more generally. You're not just changing the color, you're realigning so that a different cube is at the center
-    public void ChangeColor(int newCenterColor) { 
+        Color newColor = TessRef.Instance.GetNeighborColor (centerIdx, id);
 
-        // TODO: Rooms have multiple renderers (4 walls).
-        Renderer render = gameObject.GetComponent <Renderer>();
-
-        if (render != null) {
-            Color newColor = TessRef.Instance.GetNeighborColor (newCenterColor, id);
-            render.material.color = newColor;
-        } else {
-            Debug.LogError ("Invoked OffsetColor on TessCube with no Renderer");
+        foreach (Renderer renderer in renderers) {
+            renderer.material.color = newColor;
         }
     }
         
-    public virtual void Enable (bool enabled) {
+    public void Enable (bool enabled) {
         float targetAlpha = enabled ? 1.0f : 0.0f;
         iTween.FadeTo (gameObject, targetAlpha, 0.3f);
+
+        foreach (Collider collider in colliders) {
+            collider.enabled = enabled;
+        }
     }
 }
