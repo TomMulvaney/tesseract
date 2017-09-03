@@ -13,7 +13,7 @@ public class TessNet : Tesseract {
         
     void ToggleCubes() {
         for (int i = 1; i < cubes.Length; ++i) {
-            cubes [i].SetVisible (isUnfolded);
+            cubes [i].Enable (isUnfolded);
         }
     }
 }
