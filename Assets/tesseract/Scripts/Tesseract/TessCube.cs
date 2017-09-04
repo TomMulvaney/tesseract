@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class TessCube : MonoBehaviour {
 
-    public List<Collider> colliders = new List<Collider> ();
-    public List<Renderer> renderers = new List<Renderer>();
+    public List<Renderer> mainRenderers = new List<Renderer>();
 
     public delegate void ClickAction(TessCube cube);
     public event ClickAction OnClick;
@@ -24,7 +23,19 @@ public class TessCube : MonoBehaviour {
     TessCube down;
     TessCube opposite;
 
+    List<Collider> colliders = new List<Collider> ();
+
     void Awake() {
+        Collider coll = gameObject.GetComponent <Collider> ();
+        if (coll != null) {
+            colliders.Add (coll);
+        }
+
+        Collider[] childColliders = gameObject.GetComponentsInChildren<Collider> ();
+        foreach(Collider childColl in childColliders) {
+            colliders.Add (childColl);
+        }
+
         foreach (Collider collider in colliders) {
             Clickable clickable = collider.gameObject.AddComponent <Clickable>();
             if (clickable != null) {
@@ -63,7 +74,7 @@ public class TessCube : MonoBehaviour {
 
         Color newColor = TessRef.Instance.GetNeighborColor (centerIdx, id);
 
-        foreach (Renderer renderer in renderers) {
+        foreach (Renderer renderer in mainRenderers) {
             renderer.material.color = newColor;
         }
     }
