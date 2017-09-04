@@ -6,6 +6,9 @@ public class TessCube : MonoBehaviour {
 
     public List<Renderer> mainRenderers = new List<Renderer>();
 
+    public delegate void RebaseAction(TessCube tessCube);
+    public event RebaseAction OnRebase;
+
     public delegate void ClickAction(TessCube cube);
     public event ClickAction OnClick;
 
@@ -15,13 +18,21 @@ public class TessCube : MonoBehaviour {
         return id;
     }
 
-    TessCube up;
-    TessCube forward;
-    TessCube right;
-    TessCube back;
-    TessCube left;
-    TessCube down;
-    TessCube opposite;
+    Color color;
+
+    public Color GetColor() {
+        return color;
+    }
+
+    protected TessCube[] neighbors = new TessCube[8];
+
+    protected TessCube up;
+    protected TessCube forward;
+    protected TessCube right;
+    protected TessCube back;
+    protected TessCube left;
+    protected TessCube down;
+    protected TessCube opposite;
 
     List<Collider> colliders = new List<Collider> ();
 
@@ -52,30 +63,30 @@ public class TessCube : MonoBehaviour {
         }
     }
         
-    public void Init(int newId, TessCube[] cubes) {
+    public virtual void Init(int newId, TessCube[] cubes) {
         id = newId;
         SetNeighbors (cubes);
         Rebase(0);
     }
 
     void SetNeighbors(TessCube[] cubes) {
-        int[] neighbors = TessRef.Instance.neighborMap [id];
+        int[] neighborIdxs = TessRef.Instance.neighborMap [id];
 
-        up = cubes [neighbors [TessRef.UP]];
-        forward = cubes [neighbors [TessRef.FORWARD]];
-        right = cubes [neighbors [TessRef.RIGHT]];
-        back = cubes [neighbors [TessRef.BACK]];
-        left = cubes [neighbors [TessRef.LEFT]];
-        down = cubes [neighbors [TessRef.DOWN]];
-        opposite = cubes [neighbors [TessRef.OPPOSITE]];
+        for (int i = 0; i < neighbors.Length; ++i) {
+            neighbors [i] = cubes [neighborIdxs [i]];
+        }
     }
         
-    public void Rebase(int centerIdx) { 
+    public virtual void Rebase(int centerIdx) { 
 
-        Color newColor = TessRef.Instance.GetNeighborColor (centerIdx, id);
+        color = TessRef.Instance.GetNeighborColor (centerIdx, id);
 
         foreach (Renderer renderer in mainRenderers) {
-            renderer.material.color = newColor;
+            renderer.material.color = color;
+        }
+
+        if (OnRebase != null) {
+            OnRebase (this);
         }
     }
         

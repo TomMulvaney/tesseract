@@ -28,6 +28,13 @@ public class Teleporter : MonoBehaviour {
         } else {
             Debug.LogWarning(string.Format ("IClicker {0} clicked on Teleporter but has no ITeleportable", clicker.GetGameObject ().name));
         }
-
 	}
+
+    public void SetMoveTarget(Transform newMoveTarget) {
+        moveTarget = newMoveTarget;
+    }
+
+    public void AddClickTarget(Collider newCLickTarget) {
+        clickTargets.Add (newCLickTarget);
+    }
 }

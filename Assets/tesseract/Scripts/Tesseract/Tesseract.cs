@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Tesseract : MonoBehaviour {
+public class Tesseract : MonoBehaviour {
 
     bool hasStarted = false;
     public bool HasStarted() {
@@ -26,5 +26,5 @@ public abstract class Tesseract : MonoBehaviour {
         hasStarted = true;
     }
 
-    public abstract void OnClickCube (TessCube cube);
+    public virtual void OnClickCube (TessCube cube) {}
 }
