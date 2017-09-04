@@ -5,5 +5,9 @@ using UnityEngine;
 public class Teleportable : MonoBehaviour, ITeleportable {
 
     public void Teleport (Transform target, TeleportTransition transition) {
+
+        if (transition == null) {
+            transform.position = target.position;
+        }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Clicker : MonoBehaviour {
+public class Clicker : MonoBehaviour, IClicker {
 	
 	// Update is called once per frame
 	void Update () {
@@ -15,9 +15,13 @@ public class Clicker : MonoBehaviour {
                 
                 IClickable clickable = hit.collider.GetComponent (typeof(IClickable)) as IClickable;
                 if (clickable != null) {
-                    clickable.Click (this);
+                    clickable.Click (this as IClicker);
                 }
             }
         }
 	}
+
+    public  GameObject GetGameObject() {
+        return gameObject;
+    }
 }

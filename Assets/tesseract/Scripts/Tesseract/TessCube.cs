@@ -35,7 +35,7 @@ public class TessCube : MonoBehaviour {
         }
     }
 
-    void Click(IClickable clickable) {
+    void Click(IClicker clicker, IClickable clickable) {
         if (OnClick != null) {
             OnClick (this);
         }

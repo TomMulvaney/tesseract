@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Clickable : MonoBehaviour, IClickable {
 
-    public delegate void ClickAction(IClickable cube);
+    public delegate void ClickAction(IClicker clicker, IClickable clickable);
     public event ClickAction OnClick;
 
-    public void Click(MonoBehaviour obj) {
+    public void Click(IClicker clicker) {
         if (OnClick != null) {
-            OnClick (this as IClickable); // TODO: Pass Clickable and Clicker
+            OnClick (clicker, this as IClickable);
         }
+    }
+
+    public GameObject GetGameObject() {
+        return gameObject;
     }
 }
