@@ -6,13 +6,13 @@ public class TessRoom : TessCube {
 
     public Transform playerPosition;
 
+    // PortalIdx = NeighborIdx - 1 (e.g. Up=1 but PortalIdx=0) because there is no "self" portal
     public TessRoomPortal[] portals = new TessRoomPortal[6];
 
     public override void Init(int newId, TessCube[] cubes) {
         base.Init (newId, cubes);
 
         for (int i = 0; i < portals.Length; ++i) {
-            // PortalIdx = NeighborIdx - 1 (e.g. Up=1 but PortalIdx=0) because there is no "self" portal
             portals [i].SetMoveTarget (((TessRoom)neighbors [i + 1]).GetPlayerPosition ());
         }
     }
@@ -20,10 +20,12 @@ public class TessRoom : TessCube {
     public override void Rebase(int centerIdx) {
         base.Rebase (centerIdx);
 
-//        for (int i = 0; i < portals.Length; ++i) {
-//            int neighborIdx = TessRef.Instance.GetNeighborId (centerIdx, i + 1);
-//            Color portalColor = TessRef.Instance.GetNeighborColor ()
-//        }
+        int thisIdx = TessRef.Instance.GetNeighborId (centerIdx, GetId ());
+
+        for (int i = 0; i < portals.Length; ++i) {
+            Color portalColor = TessRef.Instance.GetNeighborColor (thisIdx, i + 1);
+            portals [i].SetColor (portalColor);
+        }
     }
 
     public Transform GetPlayerPosition() {
