@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// TODO: Rename TessMap
 public class TessRef : Singleton<TessRef> {
+
+    // TODO: public static void SortByLocalSpace<T>(T[] ls) {
 
     public Color[] colors = new Color[8];
 

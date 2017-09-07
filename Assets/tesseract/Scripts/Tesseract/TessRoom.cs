@@ -6,6 +6,8 @@ public class TessRoom : TessCube {
 
     public Transform playerPosition;
 
+    // TODO: Get portals from GetComponentsInChildren, then sort by calling TessReff.SortByLocalSpace
+
     // PortalIdx = NeighborIdx - 1 (e.g. Up=1 but PortalIdx=0) because there is no "self" portal
     public TessRoomPortal[] portals = new TessRoomPortal[6];
 
